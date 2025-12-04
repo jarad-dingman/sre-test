@@ -1,0 +1,24 @@
+## Dependency Health (Last 15 minutes)
+
+Timestamp: 2024-12-03 02:47:00 UTC
+
+### Fraud Verification Service
+- Status: **UNKNOWN**
+- Success Rate: N/A
+- Avg Response Time: N/A
+- Last Successful Call: 02:34 UTC
+
+**Note**: Unable to reach fraud verification service for health checks since 02:35 UTC
+
+### Database (PostgreSQL - payment-db)
+- Status: Healthy
+- Connection Pool: 8/20 connections used
+- Query p95: 45ms
+- No slow queries detected
+- Disk Usage: 15% (2.1GB / 14GB)
+- Active Connections: 3
+- Tables: customers (6 rows), transactions (5 rows), payment_methods (5 rows), account_balances (6 rows)
+
+### External APIs
+- Payment Gateway: Healthy (99.9% success rate)
+- Customer Service: Healthy

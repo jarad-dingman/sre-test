@@ -1,0 +1,87 @@
+## Latency Metrics (Last 15 minutes)
+
+Timestamp: 2024-12-03 02:47:00 UTC
+
+### Overall Service Latency
+- p50: 145ms
+- p95: 3,800ms
+- p99: 5,900ms
+
+### Latency by Endpoint
+
+#### /api/payment (DEGRADED)
+- p50: 2,150ms
+- p95: 5,200ms
+- p99: 6,800ms
+- Baseline p50: 120ms
+- **ALERT: p95 latency 14.8x above baseline**
+
+#### /api/refund (DEGRADED)
+- p50: 2,080ms
+- p95: 4,950ms
+- p99: 6,200ms
+- Baseline p50: 180ms
+- **ALERT: p95 latency 27.5x above baseline**
+
+#### /api/customers (HEALTHY)
+- p50: 52ms
+- p95: 89ms
+- p99: 120ms
+- Baseline p50: 50ms
+
+#### /api/customers/{id} (HEALTHY)
+- p50: 48ms
+- p95: 78ms
+- p99: 95ms
+- Baseline p50: 45ms
+
+#### /api/transactions (HEALTHY)
+- p50: 61ms
+- p95: 95ms
+- p99: 125ms
+- Baseline p50: 60ms
+
+#### /api/transactions/{id} (HEALTHY)
+- p50: 35ms
+- p95: 58ms
+- p99: 75ms
+- Baseline p50: 30ms
+
+#### /api/payment-methods (HEALTHY)
+- p50: 42ms
+- p95: 68ms
+- p99: 85ms
+- Baseline p50: 40ms
+
+#### /api/accounts/{id}/balance (HEALTHY)
+- p50: 46ms
+- p95: 72ms
+- p99: 88ms
+- Baseline p50: 45ms
+
+#### /api/stats (HEALTHY)
+- p50: 58ms
+- p95: 95ms
+- p99: 115ms
+- Baseline p50: 55ms
+
+### Latency Breakdown (Payment Endpoint - Successful Requests Only)
+- Request processing: 15ms
+- Fraud check call: 2,100ms (avg)
+- Database write: 35ms
+
+### Failed Request Latency
+- Average time to failure: 2,050ms
+- Most failures occur during external service call phase
+
+### Timeline (Overall p95)
+- 02:30 UTC: p95 = 340ms (normal)
+- 02:35 UTC: p95 = 1,200ms
+- 02:40 UTC: p95 = 3,500ms
+- 02:45 UTC: p95 = 3,800ms
+
+### Pattern Analysis
+- Read endpoints: All performing normally
+- Write endpoints (non-payment): Performing normally
+- Payment/refund endpoints: Severely degraded
+- Common factor: High-value transaction operations affected

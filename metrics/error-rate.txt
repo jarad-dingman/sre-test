@@ -1,0 +1,48 @@
+## Error Rate Dashboard (Last 15 minutes)
+
+Timestamp: 2024-12-03 02:47:00 UTC
+
+### Overall HTTP Status Codes
+- 2xx (Success): 412 requests (68%)
+- 4xx (Client Error): 8 requests (1%)
+- 5xx (Server Error): 185 requests (31%)
+  - 503 Service Unavailable: 127 requests (21%)
+  - 504 Gateway Timeout: 58 requests (10%)
+
+### Error Rate by Endpoint
+- /api/payment: 92% error rate (138/150 requests) ⚠️
+- /api/refund: 88% error rate (22/25 requests) ⚠️
+- /api/customers: 0% error rate (95/95 requests) ✓
+- /api/customers/{id}: 0% error rate (120/120 requests) ✓
+- /api/accounts/{id}/balance: 0% error rate (67/67 requests) ✓
+- /api/transactions: 0% error rate (85/85 requests) ✓
+- /api/transactions/{id}: 2% error rate (3/140 requests) ✓
+- /api/payment-methods: 0% error rate (45/45 requests) ✓
+- /api/stats: 0% error rate (32/32 requests) ✓
+- /health: 0% error rate (50/50 requests) ✓
+
+### Comparison to Baseline
+- Normal overall error rate: < 1%
+- Current overall error rate: 31%
+- Payment endpoint error rate: 92% (baseline: 0.2%)
+- **ALERT: Payment operations severely degraded**
+
+### Recent Error Spike Timeline
+- 02:15 UTC: Error rate normal (0.5%)
+- 02:20 UTC: Error rate normal (0.8%)
+- 02:25 UTC: Error rate normal (0.6%)
+- 02:30 UTC: Error rate normal (0.5%)
+- 02:35 UTC: Payment errors increase to 15%
+- 02:40 UTC: Payment errors jump to 85%
+- 02:45 UTC: Payment errors at 92%, refund errors at 88%
+
+### Notes
+- No recent deployments detected
+- Database performance normal
+- No infrastructure alerts
+- Issue appears isolated to specific operations
+
+### Traffic Distribution
+- Read operations (GET): 567 requests (78% of traffic)
+- Write operations (POST): 175 requests (22% of traffic)
+- Payment-related operations: 175 requests (22% of traffic)

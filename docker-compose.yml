@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: payment-db
+    environment:
+      - POSTGRES_DB=payments
+      - POSTGRES_USER=paymentuser
+      - POSTGRES_PASSWORD=paymentpass123
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paymentuser -d payments"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  payment-processor:
+    build: ./service
+    container_name: payment-processor
+    ports:
+      - "8080:8080"
+    environment:
+      - FRAUD_CHECK_TIMEOUT=2s
+      - RATE_LIMIT_PER_MINUTE=100
+      - LOG_LEVEL=info
+      - DATABASE_URL=postgresql://paymentuser:paymentpass123@postgres:5432/payments
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  log-viewer:
+    image: amir20/dozzle:latest
+    container_name: log-viewer
+    ports:
+      - "9999:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - DOZZLE_LEVEL=info
+      - DOZZLE_TAILSIZE=300
+
+  traffic-generator:
+    build: ./traffic-generator
+    container_name: traffic-generator
+    depends_on:
+      payment-processor:
+        condition: service_healthy
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
