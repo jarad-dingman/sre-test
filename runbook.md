@@ -78,7 +78,6 @@ SELECT * FROM transaction_summary LIMIT 10;
 5. Review recent deployments: `cat deployments.log`
 6. Review error patterns by endpoint
 7. Check all container statuses: `docker-compose ps`
-8. [INTENTIONAL GAP: No mention of checking DNS resolution]
 
 ### High Latency
 **Symptoms**: Slow response times, timeouts
@@ -91,7 +90,6 @@ SELECT * FROM transaction_summary LIMIT 10;
 **Investigation Steps**:
 1. Check metrics for latency spikes
 2. Review logs for timeout errors
-3. [INTENTIONAL GAP: Missing steps about testing dependencies directly]
 
 ## Mitigation Strategies
 
